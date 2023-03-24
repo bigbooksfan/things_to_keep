@@ -1,4 +1,5 @@
 #pragma once
+#pragma once
 
 #include <chrono>
 #include <iostream>
@@ -9,23 +10,23 @@
 #define UNIQUE_VAR_NAME_PROFILE PROFILE_CONCAT(profileGuard, __LINE__)
 
 /**
- * Макрос замеряет время, прошедшее с момента своего вызова
- * до конца текущего блока, и выводит в поток std::cerr.
+ * The macro measures the time elapsed since it was called
+ * to the end of the current block, and outputs to the stream std::cerr.
  *
- * Пример использования:
+ * Use case:
  *
  *  void Task1() {
- *      LOG_DURATION("Task 1"sv); // Выведет в cerr время работы функции Task1
+ *      LOG_DURATION("Task 1"sv); // Prints in cerr the running time of the function Task1
  *      ...
  *  }
  *
  *  void Task2() {
- *      LOG_DURATION("Task 2"sv); // Выведет в cerr время работы функции Task2
+ *      LOG_DURATION("Task 2"sv); // Prints in cerr the running time of the function Task2
  *      ...
  *  }
  *
  *  int main() {
- *      LOG_DURATION("main"sv);  // Выведет в cerr время работы функции main
+ *      LOG_DURATION("main"sv);  // Prints in cerr the running time of the function main
  *      Task1();
  *      Task2();
  *  }
@@ -33,13 +34,13 @@
 #define LOG_DURATION(x) LogDuration UNIQUE_VAR_NAME_PROFILE(x)
 
  /**
-  * Поведение аналогично макросу LOG_DURATION, при этом можно указать поток,
-  * в который должно быть выведено измеренное время.
+  * The behavior is similar to the LOG_DURATION macro, but you can specify the stream 
+  * into which the measured time should be output.
   *
-  * Пример использования:
+  * Use case:
   *
   *  int main() {
-  *      // Выведет время работы main в поток std::cout
+  *      // Prints in std::cout the running time of the function main
   *      LOG_DURATION("main"s, std::cout);
   *      ...
   *  }
@@ -48,8 +49,8 @@
 
 class LogDuration {
 public:
-    // заменим имя типа std::chrono::steady_clock
-    // с помощью using для удобства
+    // replace the type name std::chrono::steady_clock 
+    // with using for convenience
     using Clock = std::chrono::steady_clock;
 
     LogDuration(std::string_view id, std::ostream& dst_stream = std::cerr)
