@@ -1,0 +1,17 @@
+#include <iostream>
+#include <type_traits>
+
+template<int N, int L = 1, int H = N, int mid = (L + H + 1) / 2>
+struct my_sqrt : std::integral_constant<int,
+    std::conditional_t<(N < mid * mid),
+                        my_sqrt<N, L, mid - 1>,
+                        my_sqrt<N, mid, H>>{}> {};
+
+template <int N, int S> struct my_sqrt <N, S, S, S> :
+    std::integral_constant<int, S> {};
+
+int main() {
+    std::cout << my_sqrt<16>() << std::endl;
+
+    return 0;
+}
